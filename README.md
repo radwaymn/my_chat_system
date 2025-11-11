@@ -1,5 +1,9 @@
 # README
 
+pre step:
+in rails c:
+Message.**elasticsearch**.create_index!(force: true)
+
 To run the project locally:
 1- add .env file containing DB_PASSWORD
 

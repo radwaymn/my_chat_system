@@ -3,7 +3,7 @@ class Api::V1::MessagesController < ApplicationController
   before_action :set_chat
 
   def index
-    messages = @chat.messages.limit(limit).offset(params[:page])
+    messages = params[:search].present? ? @chat.messages.search(params[:search]) : @chat.messages.limit(limit).offset(params[:page])
     render json: messages
   end
 

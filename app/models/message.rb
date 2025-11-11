@@ -1,4 +1,6 @@
 class Message < ApplicationRecord
+  include Searchable
+
   validates :content, presence: true
   validates :number, presence: true, uniqueness: { scope: :chat_id }
 
