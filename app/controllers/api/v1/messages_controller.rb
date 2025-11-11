@@ -25,6 +25,12 @@ class Api::V1::MessagesController < ApplicationController
 
 
   def update
+    message = @chat.messages.find_by!(number: params[:number])
+      if message.update(message_params)
+        render json: message, status: :ok
+      else
+        render json: message.errors, status: :unprocessable_entity
+      end
   end
 
 

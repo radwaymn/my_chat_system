@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :applications, param: :token, only: [ :index, :create ] do
         resources :chats, param: :number, only: [ :index, :create ] do
-          resources :messages, only: [ :index, :create, :update ]
+          resources :messages, param: :number, only: [ :index, :create, :update ]
         end
       end
     end
