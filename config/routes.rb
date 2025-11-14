@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
-      resources :applications, param: :token, only: [ :index, :create ] do
+      resources :applications, param: :token, only: [ :index, :create, :update ] do
         resources :chats, param: :number, only: [ :index, :create ] do
           resources :messages, param: :number, only: [ :index, :create, :update ]
         end
