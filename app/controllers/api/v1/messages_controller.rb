@@ -7,6 +7,11 @@ class Api::V1::MessagesController < ApplicationController
     render json: messages
   end
 
+  def search
+    messages = @chat.messages.search(params[:search])
+    render json: messages
+  end
+
   def create
     # Use a service or transaction to safely increment per-chat number
     message = nil

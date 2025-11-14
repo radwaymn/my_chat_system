@@ -4,7 +4,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :applications, param: :token, only: [ :index, :create, :update ] do
         resources :chats, param: :number, only: [ :index, :create ] do
-          resources :messages, param: :number, only: [ :index, :create, :update ]
+          resources :messages, param: :number, only: [ :index, :create, :update ] do
+             get "search/:search", on: :collection, to: "messages#search"
+          end
         end
       end
     end
