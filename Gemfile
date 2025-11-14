@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem "dotenv-rails", groups: [ :development, :test ]
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.1"
 # Use mysql as the database for Active Record
@@ -9,7 +11,6 @@ gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
-gem "dotenv-rails"
 gem "active_model_serializers"
 gem "sidekiq"
 gem "elasticsearch-model"

@@ -1,22 +1,15 @@
 # README
 
-
 to run with docker:
 
-1- in file: config\database.yml
-make sure => host: db
+1- add .env file containing DB_HOST=db, DB_PASSWORD
 
-2- add .env file containing DB_PASSWORD
+2- run the following command<br>
+docker compose up --build<br>
 
-3- run the following commands in order:<br>
-docker-compose build<br>
-docker-compose up -d<br>
-docker-compose run web rails db:create<br>
-docker-compose run web rake db:migrate<br>
 
 4- run rails c:<br>
 Message.\_\_elasticsearch\_\_.create\_\_index!(force: true)
-
 
 #######################################################
 
@@ -26,13 +19,10 @@ pre step:
 in rails c:
 Message.\_\_elasticsearch\_\_.create\_\_index!(force: true)
 
-1- in file: config\database.yml
-make sure => host: <%= ENV.fetch("DB_HOST") { "127.0.0.1" } %>
+1- add .env file containing DB_HOST=127.0.0.1, DB_PASSWORD
 
-2- add .env file containing DB_PASSWORD
-
-3- create the database:<br>
+2- create the database:<br>
 rails db:create
 
-4- start the server:<br>
+3- start the server:<br>
 rails s
