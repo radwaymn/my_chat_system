@@ -7,8 +7,7 @@ to run with docker:
 2- run the following command<br>
 docker compose up --build<br>
 
-
-4- run rails c:<br>
+3- run rails c:<br>
 Message.\_\_elasticsearch\_\_.create\_\_index!(force: true)
 
 #######################################################

@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+bash -c "rm -f tmp/pids/server.pid"
+
 # If running the rails server then create or migrate existing database
 if [ "$3" == "rails" ] && [ "$4" == "s" ]; then
     ./bin/rails db:prepare

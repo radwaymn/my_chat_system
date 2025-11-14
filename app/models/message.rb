@@ -6,15 +6,10 @@ class Message < ApplicationRecord
 
   belongs_to :chat, counter_cache: true
 
-  # before_create :set_message_number
   before_validation :set_message_number, on: :create
 
   private
 
-  # def set_message_number
-  #   last_number = chat.messages.maximum(:number) || 0
-  #   self.number = last_number + 1
-  # end
 
   def set_message_number
     return if number.present?
