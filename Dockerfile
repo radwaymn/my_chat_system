@@ -10,7 +10,7 @@ COPY Gemfile Gemfile.lock ./
 # Install packages needed to build gems
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
-    build-essential default-mysql-client default-libmysqlclient-dev git libyaml-dev pkg-config && \
+    build-essential default-mysql-client default-libmysqlclient-dev git libyaml-dev pkg-config bash && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install dependencies
@@ -19,8 +19,7 @@ RUN bundle install
 # Copy the rest of the application code
 COPY . .
 
-# Prepare bash for entrypoint
-RUN apt-get install -y bash 
+# Make docker-entrypoint file executable
 COPY bin/docker-entrypoint /app/bin/docker-entrypoint
 RUN chmod +x /app/bin/docker-entrypoint
 
@@ -31,4 +30,4 @@ ENTRYPOINT ["/app/bin/docker-entrypoint"]
 EXPOSE 3000
 
 # Start the Rails server
-CMD ["./bin/rails", "server"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
