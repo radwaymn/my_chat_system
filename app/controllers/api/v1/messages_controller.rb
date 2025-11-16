@@ -15,8 +15,13 @@ class Api::V1::MessagesController < ApplicationController
   def create
     message_number = set_next_number
 
-    CreateMessageJob.perform_later(
-      chat_id: @chat.id, message_number: message_number, content: message_params[:content]
+    # CreateMessageJob.perform_later(
+    #   chat_id: @chat.id, message_number: message_number, content: message_params[:content]
+    # )
+
+    REDIS.rpush(
+      "chat:#{@chat.id}:messages_buffer",
+      { number: message_number, content: message_params[:content] }.to_json
     )
 
     render json: { number: message_number }, status: :accepted

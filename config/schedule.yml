@@ -1,0 +1,7 @@
+flush_messages:
+  cron: "*/1 * * * *" # every 1 min now for testing
+  class: "FlushMessagesJob"
+
+flush_chats:
+  cron: "*/1 * * * *" # every 1 min now for testing
+  class: "FlushChatsJob"
