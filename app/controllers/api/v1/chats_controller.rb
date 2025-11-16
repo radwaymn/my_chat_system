@@ -2,8 +2,20 @@ class Api::V1::ChatsController < ApplicationController
   before_action :set_application
 
   def index
-    chats = @application.chats.limit(limit).offset(params[:page])
-    render json: chats
+    # chats = @application.chats.limit(limit).offset(params[:page])
+    # render json: chats
+    db_chats = @application.chats.limit(limit).offset(params[:page])
+
+    redis_key = "application:#{@application.id}:chats_buffer"
+    redis_raw = REDIS.lrange(redis_key, 0, -1)
+
+    redis_chats = redis_raw.map do |r|
+      RedisChat.new(JSON.parse(r).merge({ messages_count: 0 }))
+    end
+
+    combined = db_chats  + redis_chats
+
+    render json: combined, each_serializer: ChatSerializer, status: :ok
   end
 
   def create

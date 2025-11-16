@@ -3,8 +3,20 @@ class Api::V1::MessagesController < ApplicationController
   before_action :set_chat
 
   def index
-    messages = params[:search].present? ? @chat.messages.search(params[:search]) : @chat.messages.limit(limit).offset(params[:page])
-    render json: messages
+    # messages = params[:search].present? ? @chat.messages.search(params[:search]) : @chat.messages.limit(limit).offset(params[:page])
+    # render json: messages
+    db_messages = params[:search].present? ? @chat.messages.search(params[:search]) : @chat.messages.limit(limit).offset(params[:page])
+
+    redis_key = "chat:#{@chat.id}:messages_buffer"
+    redis_raw = REDIS.lrange(redis_key, 0, -1)
+
+    redis_messages = redis_raw.map do |r|
+      RedisMessage.new(JSON.parse(r))
+    end
+
+    combined = db_messages  + redis_messages
+
+    render json: combined, each_serializer: MessageSerializer, status: :ok
   end
 
   def search
