@@ -2,7 +2,7 @@
 
 to run with docker:
 
-1- add .env file containing DB_HOST=db, DB_PASSWORD
+1- add .env file containing DB_HOST=db, DB_PORT=3310, DB_PASSWORD
 
 2- run the following command<br>
 docker compose up --build<br>
