@@ -10,6 +10,9 @@ docker compose up --build<br>
 3- run rails c:<br>
 Message.\_\_elasticsearch\_\_.create\_\_index!(force: true)
 
+to run specs:<br>
+docker compose run web bundle exec rspec
+
 #######################################################
 
 To run the project locally:
@@ -25,3 +28,6 @@ rails db:create
 
 3- start the server:<br>
 rails s
+
+to run specs:<br>
+rspec
