@@ -13,18 +13,13 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def create
-    # Use a service or transaction to safely increment per-chat number
-    message = nil
+    message_number = set_next_number
 
-    @chat.with_lock do
-      message = @chat.messages.new(message_params)
+    CreateMessageJob.perform_later(
+      chat_id: @chat.id, message_number: message_number, content: message_params[:content]
+    )
 
-      if message.save
-        render json: message, status: :created
-      else
-        render json: { errors: message.errors }, status: :unprocessable_entity
-      end
-    end
+    render json: { number: message_number }, status: :accepted
   end
 
 
@@ -51,5 +46,11 @@ class Api::V1::MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content)
+  end
+
+  def set_next_number
+    key = "application:#{@application.id}:chat_number:#{@chat.id}:message_number"
+    REDIS.setnx(key, (@chat.messages.maximum(:number) || 0))
+    REDIS.incr(key)
   end
 end
